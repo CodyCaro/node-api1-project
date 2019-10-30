@@ -27,9 +27,9 @@ server.listen(4000, () => {
 
 server.use(express.json());
 
-server.get("/", (request, response) => {
-  response.send("hello world...");
-});
+// server.get("/", (request, response) => {
+//   response.send("hello world...");
+// });
 
 server.get("/users", (req, res) => {
   db.find()
@@ -78,10 +78,21 @@ server.post("/users", (req, res) => {
 
   db.insert(userInfo)
     .then(user => {
-      res.status(201).json({
-        success: true,
-        user
-      });
+      if ("name" in userInfo && "bio" in userInfo) {
+        res.status(201).json({
+          success: true,
+          user
+        });
+      } else {
+        res
+          .status(400)
+          .json({
+            errorMessage: "Please provide name and bio for the user."
+          })
+          .catch(err => {
+            res.status(500).json({ success: false, err });
+          });
+      }
     })
     .catch(err => {
       res.status(500).json({
