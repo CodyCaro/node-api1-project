@@ -91,24 +91,24 @@ server.post("/users", (req, res) => {
     });
 });
 
-// server.delete("/hubs/:id", (req, res) => {
-//   const { id } = req.params;
+server.delete("/users/:id", (req, res) => {
+  const { id } = req.params;
 
-//   db.remove(id).then(deletedHub => {
-//     if (deletedHub) {
-//       res.status(204).end();
-//     } else {
-//       res
-//         .status(404)
-//         .json({
-//           message: `I could not find the id=${id}`
-//         })
-//         .catch(err => {
-//           res.status(500).json({ success: false, err });
-//         });
-//     }
-//   });
-// });
+  db.remove(id).then(deletedUser => {
+    if (deletedUser) {
+      res.status(204).end();
+    } else {
+      res
+        .status(404)
+        .json({
+          message: `I could not find the id=${id}`
+        })
+        .catch(err => {
+          res.status(500).json({ success: false, err });
+        });
+    }
+  });
+});
 
 // server.put("/hubs/:id", (req, res) => {
 //   const { id } = req.params;
