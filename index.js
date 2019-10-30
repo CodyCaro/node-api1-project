@@ -44,6 +44,34 @@ server.get("/users", (req, res) => {
     });
 });
 
+server.get("/users/:id", (req, res) => {
+  const { id } = req.params;
+  db.findById(id)
+    .then(user => {
+      if (user !== undefined) {
+        res.status(201).json({
+          success: true,
+          user
+        });
+      } else {
+        res
+          .status(404)
+          .json({
+            message: `I could not find the id=${id}`
+          })
+          .catch(err => {
+            res.status(500).json({ success: false, err });
+          });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err,
+        success: false
+      });
+    });
+});
+
 server.post("/users", (req, res) => {
   const userInfo = req.body;
   console.log("body: ", userInfo);
@@ -99,8 +127,4 @@ server.post("/users", (req, res) => {
 //     .catch(err => {
 //       res.status(500).json({ success: false, err });
 //     });
-// });
-
-// server.get("/hubs/:id", (req, res) => {
-//   //do your thing to get by id here
 // });
