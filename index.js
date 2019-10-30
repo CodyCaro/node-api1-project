@@ -110,21 +110,21 @@ server.delete("/users/:id", (req, res) => {
   });
 });
 
-// server.put("/hubs/:id", (req, res) => {
-//   const { id } = req.params;
-//   const hubInfo = req.body;
+server.put("/users/:id", (req, res) => {
+  const { id } = req.params;
+  const userInfo = req.body;
 
-//   db.update(id, hubInfo)
-//     .then(hub => {
-//       if (hub) {
-//         res.status(200).json({ success: true, hub });
-//       } else {
-//         res
-//           .status(404)
-//           .json({ success: false, message: `id ${id} does not exist` });
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({ success: false, err });
-//     });
-// });
+  db.update(id, userInfo)
+    .then(user => {
+      if (user) {
+        res.status(200).json({ success: true, user: userInfo });
+      } else {
+        res
+          .status(404)
+          .json({ success: false, message: `id ${id} does not exist` });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ success: false, err });
+    });
+});
